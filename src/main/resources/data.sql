@@ -1,0 +1,1 @@
+INSERT INTO authtemplate.appuser (email, password, role) VALUES ('spokay@spokay.fr', '$2y$10$DDJujaM/af2WAGGiiPP0QeqHKboy8Y2uoqsU/fvk1MJcdIBpp6vlO', 'ADMIN');
