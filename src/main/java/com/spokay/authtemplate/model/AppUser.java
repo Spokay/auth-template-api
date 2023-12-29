@@ -26,8 +26,8 @@ public class AppUser implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "password", columnDefinition = "TEXT")
-    private String password;
+    @Column(name = "pwd", columnDefinition = "TEXT")
+    private String pwd;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -35,6 +35,16 @@ public class AppUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * @return the password
+     */
+    @Override
+    public String getPassword() {
+        return this.getPwd();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.spokay.authtemplate.dto;
 
+import com.spokay.authtemplate.model.Role;
 import lombok.Builder;
 import lombok.Data;
 

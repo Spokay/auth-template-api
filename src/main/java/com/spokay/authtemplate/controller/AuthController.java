@@ -1,43 +1,33 @@
 package com.spokay.authtemplate.controller;
 
-import com.spokay.authtemplate.dto.AppUserLoginDto;
-import com.spokay.authtemplate.dto.AppUserRegisterDto;
-import com.spokay.authtemplate.dto.AppUserResponseDto;
+import com.spokay.authtemplate.dto.AuthenticationRequestDto;
+import com.spokay.authtemplate.dto.AuthenticationResponseDto;
+import com.spokay.authtemplate.dto.RegisterRequestDto;
 import com.spokay.authtemplate.service.AuthService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @CrossOrigin(originPatterns = "*")
 public class AuthController {
-    private AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<AppUserResponseDto> register(@RequestBody AppUserRegisterDto appUserRegisterDto){
-        System.out.println(appUserRegisterDto);
-        return authService.register(appUserRegisterDto);
+    public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto){
+        System.out.println(registerRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequestDto));
     }
 
-    @GetMapping
+    @PostMapping({"/authenticate", "/login"})
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<AppUserResponseDto> getAllUsers(){
-        return authService.getAllUsers();
+    public ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody AuthenticationRequestDto authenticationRequestDto){
+        System.out.println(authenticationRequestDto);
+        return ResponseEntity.ok(authService.authenticate(authenticationRequestDto));
     }
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AppUserResponseDto> login(@RequestBody AppUserLoginDto appUserLoginDto){
-        System.out.println(appUserLoginDto);
-        return authService.login(appUserLoginDto);
-    }
 }
