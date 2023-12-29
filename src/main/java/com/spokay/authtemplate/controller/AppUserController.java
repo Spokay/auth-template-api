@@ -2,8 +2,11 @@ package com.spokay.authtemplate.controller;
 
 import com.spokay.authtemplate.dto.AppUserResponseDto;
 import com.spokay.authtemplate.service.AppUserService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +22,7 @@ public class AppUserController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<AppUserResponseDto> getAllUsers(){
         return appUserService.getAll();
     }

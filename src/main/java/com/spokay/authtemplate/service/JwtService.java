@@ -1,13 +1,10 @@
 package com.spokay.authtemplate.service;
 
-import com.spokay.authtemplate.model.AppUser;
-import com.spokay.authtemplate.repository.AppUserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,14 +16,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${jwt.secret}")
-    private final String jwtSecretKey;
+    private String jwtSecretKey;
 
     @Value("${jwt.expiration}")
-    private final long jwtExpiration;
+    private String jwtExpiration;
 
 
 
@@ -46,7 +42,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(jwtExpiration)))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -62,7 +58,7 @@ public class JwtService {
                 .parserBuilder()
                 .setSigningKey(this.getSigningKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
