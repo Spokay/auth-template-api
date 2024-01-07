@@ -2,7 +2,7 @@ package com.spokay.authtemplate.controller;
 
 import com.spokay.authtemplate.dto.AuthenticationRequestDto;
 import com.spokay.authtemplate.dto.AuthenticationResponseDto;
-import com.spokay.authtemplate.dto.RegisterRequestDto;
+import com.spokay.authtemplate.dto.DefaultRegisterRequestDto;
 import com.spokay.authtemplate.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto){
+    public ResponseEntity<AuthenticationResponseDto> register(@RequestBody DefaultRegisterRequestDto registerRequestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequestDto));
     }
 

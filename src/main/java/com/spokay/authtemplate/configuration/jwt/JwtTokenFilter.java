@@ -1,12 +1,13 @@
-package com.spokay.authtemplate.configuration;
+package com.spokay.authtemplate.configuration.jwt;
 
-import com.spokay.authtemplate.service.JwtService;
+import com.spokay.authtemplate.service.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
+@Profile(value="jwt")
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;

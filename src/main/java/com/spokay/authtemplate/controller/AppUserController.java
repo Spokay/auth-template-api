@@ -2,10 +2,8 @@ package com.spokay.authtemplate.controller;
 
 import com.spokay.authtemplate.dto.AppUserResponseDto;
 import com.spokay.authtemplate.service.AppUserService;
-import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
