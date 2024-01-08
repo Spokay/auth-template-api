@@ -1,4 +1,4 @@
-package com.spokay.authtemplate.configuration.jwt;
+package com.spokay.authtemplate.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,24 +6,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
 @RequiredArgsConstructor
-@Profile(value="jwt")
-public class JwtSecurityConfiguration {
+@Profile(value = "default")
+public class SecurityConfiguration {
     @Value("${enable-csrf:false}")
     private String isCsrfEnabled;
 
-    private final JwtTokenFilter jwtTokenFilter;
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
@@ -36,19 +30,17 @@ public class JwtSecurityConfiguration {
             .cors(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(
                     requestMatcher -> requestMatcher
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .anyRequest().authenticated()
+                            .anyRequest()
+                            .permitAll()
             )
             .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagementConfigurer ->
-                        sessionManagementConfigurer
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                            .configure(http)
-                )
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+            .sessionManagement(sessionManagementConfigurer ->
+                    sessionManagementConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .configure(http)
+            )
+            .authenticationProvider(authenticationProvider);
 
         return http.build();
     }
-
 }

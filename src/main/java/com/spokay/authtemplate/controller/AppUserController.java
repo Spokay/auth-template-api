@@ -3,6 +3,7 @@ package com.spokay.authtemplate.controller;
 import com.spokay.authtemplate.dto.AppUserResponseDto;
 import com.spokay.authtemplate.service.AppUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/users")
 @CrossOrigin(originPatterns = "*")
 @RequiredArgsConstructor
+@Profile("jwt")
 public class AppUserController {
 
     private final AppUserService appUserService;
