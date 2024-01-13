@@ -11,6 +11,7 @@ import com.spokay.authtemplate.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +42,7 @@ public class JwtAuthService implements AuthService {
                 .build();
     }
 
-    public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto){
+    public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto) throws BadCredentialsException {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

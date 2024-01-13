@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import java.util.function.Function;
 
 @Service
 @Profile(value="jwt")
+@Setter
 public class JwtService {
 
     @Value("${jwt.secret}")
@@ -25,8 +27,6 @@ public class JwtService {
 
     @Value("${jwt.expiration}")
     private String jwtExpiration;
-
-
 
 
     public <T> T extractClaim(String token, Function<Claims, T> claimResolver){
@@ -70,7 +70,7 @@ public class JwtService {
         return (username.equals(user.getUsername())) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date(System.currentTimeMillis()));
     }
 
@@ -78,7 +78,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Key getSigningKey(){
+    public Key getSigningKey(){
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
