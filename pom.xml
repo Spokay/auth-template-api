@@ -8,10 +8,10 @@
         <version>3.1.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.spokay</groupId>
-    <artifactId>auth-template-api</artifactId>
+    <groupId>com.divrsitee</groupId>
+    <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>auth-template-api</name>
+    <name>divrsitee_backend</name>
     <description>auth-template-api</description>
     <properties>
         <java.version>17</java.version>
