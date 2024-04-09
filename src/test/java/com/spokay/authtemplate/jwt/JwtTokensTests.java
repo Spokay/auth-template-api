@@ -4,6 +4,7 @@ import com.spokay.authtemplate.model.AppUser;
 import com.spokay.authtemplate.model.Role;
 import com.spokay.authtemplate.service.jwt.JwtService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,11 +15,13 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Profile("jwt")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(properties = {"spring.profiles.active=jwt"})
 public class JwtTokensTests {
@@ -50,6 +53,7 @@ public class JwtTokensTests {
     void isTokenGeneratedCorrectly() {
         String expectedSubject = user.getEmail();
         String generatedToken = jwtService.generateJwtToken(user);
+        SignatureAlgorithm expectedAlgorithm = SignatureAlgorithm.HS384;
 
         // assert that getSigningKey is called once
         verify(jwtService, times(1)).getSigningKey();
@@ -61,10 +65,14 @@ public class JwtTokensTests {
         // assert that extractClaim is called 3 times
         verify(jwtService, times(3)).extractClaim(anyString(), any());
 
+        // get the signature algorithm from the signing key
+        SignatureAlgorithm algorithm = SignatureAlgorithm.forSigningKey(jwtService.getSigningKey());
+
         // assert that the tokens claims are correct
         assertTrue(issuedAt < expirationDate);
         assertEquals((issuedAt + expirationTime), expirationDate);
         assertEquals(expectedSubject, subject);
+        assertEquals(expectedAlgorithm, algorithm);
     }
 
     @Test

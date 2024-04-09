@@ -6,12 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Profile("jwt")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.profiles.active=jwt"})
 public class JwtProfileConfigurationTests {
