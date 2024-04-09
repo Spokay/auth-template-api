@@ -10,7 +10,7 @@ FROM alpine/java:17-jre as runtime
 
 COPY target/*.jar /app/app.jar
 
-ARG PORT=8080
+ENV PORT=$PORT
 
 EXPOSE $PORT
 
