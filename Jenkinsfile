@@ -16,7 +16,7 @@ pipeline {
 //                 git branch: 'develop', credentialsId: '1b592148-a810-462d-84e1-d529b4b655b1', url: 'https://github.com/Spokay/auth-template-api.git'
 
                 sh """
-                DOCKER_BUILDKIT=1 docker build --build-arg="PORT=8081" -t ${IMAGE} .
+                docker build --build-arg="PORT=8081" -t ${IMAGE} .
                 """
             }
 
