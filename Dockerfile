@@ -8,7 +8,7 @@ RUN mvn clean package
 
 FROM alpine/java:17-jre as runtime
 
-COPY target/*.jar /app/app.jar
+COPY --from=build target/*.jar /app/app.jar
 
 ENV PORT=$PORT
 
