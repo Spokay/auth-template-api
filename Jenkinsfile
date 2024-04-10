@@ -3,14 +3,15 @@ pipeline {
 
     environment {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-        IMAGE = readMavenPom().getArtifactId()
+        IMAGE = spokay/auth-template-app
         VERSION = readMavenPom().getVersion()
+        DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
     }
     stages {
         stage('Get Code') {
             steps {
                 // Get some code from a GitHub repository
-                git branch: 'master', credentialsId: '1b592148-a810-462d-84e1-d529b4b655b1', url: 'https://github.com/Spokay/auth-template-api.git'
+                git branch: 'master' url: 'https://github.com/Spokay/auth-template-api.git'
             }
         }
         stage('Build') {
@@ -20,19 +21,24 @@ pipeline {
                 // Get some code from a GitHub repository
 //                 git branch: 'develop', credentialsId: '1b592148-a810-462d-84e1-d529b4b655b1', url: 'https://github.com/Spokay/auth-template-api.git'
 
-                sh """
-                docker build --build-arg="PORT=8081" -t ${IMAGE} .
-                """
+//                 sh """
+//                 docker build --build-arg="PORT=8081" -t ${IMAGE} .
+//                 """
+                dockerImage = docker.build "${IMAGE}:${VERSION}"
+
             }
 
             post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
                 success {
-                    sh """
-                    docker tag ${IMAGE} ${IMAGE}:${VERSION}
-                    docker push ${IMAGE}:${VERSION}
-                    """
+//                     sh """
+//                     docker tag ${IMAGE} ${IMAGE}:${VERSION}
+//                     docker push ${IMAGE}:${VERSION}
+//                     """
+                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
