@@ -7,9 +7,14 @@ pipeline {
         VERSION = readMavenPom().getVersion()
     }
     stages {
+        stage('Get Code') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'develop', credentialsId: '1b592148-a810-462d-84e1-d529b4b655b1', url: 'https://github.com/Spokay/auth-template-api.git'
+            }
+        }
         stage('Build') {
             agent any
-
 
             steps {
                 // Get some code from a GitHub repository
