@@ -11,7 +11,7 @@ pipeline {
         stage('Get Code') {
             steps {
                 // Get some code from a GitHub repository
-                git branch: 'master' url: 'https://github.com/Spokay/auth-template-api.git'
+                git branch: 'master', url: 'https://github.com/Spokay/auth-template-api.git'
             }
         }
         stage('Build') {
