@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-        IMAGE = spokay/auth-template-app
+        IMAGE = 'spokay/auth-template-app'
         VERSION = readMavenPom().getVersion()
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
     }
@@ -24,7 +24,11 @@ pipeline {
 //                 sh """
 //                 docker build --build-arg="PORT=8081" -t ${IMAGE} .
 //                 """
-                dockerImage = docker.build "${IMAGE}:${VERSION}"
+                script {
+                    def dockerImage
+                    dockerImage = docker.build "${IMAGE}:${VERSION}"
+                }
+//                 dockerImage = docker.build "${IMAGE}:${VERSION}"
 
             }
 
@@ -36,8 +40,10 @@ pipeline {
 //                     docker tag ${IMAGE} ${IMAGE}:${VERSION}
 //                     docker push ${IMAGE}:${VERSION}
 //                     """
-                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        dockerImage.push()
+                    script {
+                        docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                            dockerImage.push()
+                        }
                     }
                 }
             }
