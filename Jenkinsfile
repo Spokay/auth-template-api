@@ -7,6 +7,7 @@ pipeline {
         VERSION = readMavenPom().getVersion()
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
         REGISTRY_URL = 'https://index.docker.io/v1/'
+        DOCKER_HOST = 'tcp://localhost:2376'
     }
     stages {
         stage('Get Code') {
