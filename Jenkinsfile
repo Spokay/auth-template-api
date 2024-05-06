@@ -7,7 +7,6 @@ pipeline {
         VERSION = readMavenPom().getVersion()
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
         REGISTRY_URL = 'https://index.docker.io/v1/'
-        DOCKER_HOST = 'tcp://localhost:2376'
     }
     stages {
         stage('Get Code') {
@@ -22,7 +21,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
-                        def dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
+                        def dockerImage = docker.build("${IMAGE}:${VERSION}")
                     }
                 }
             }
