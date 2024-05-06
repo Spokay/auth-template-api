@@ -25,8 +25,10 @@ pipeline {
 //                 sh """
 //                 docker build --build-arg="PORT=8081" -t ${IMAGE} .
 //                 """
-                docker.withRegistry(url: REGISTRY_URL, credentialsId: DOCKER_HUB_CREDENTIALS) {
-                    def dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
+                script {
+                    docker.withRegistry(url: REGISTRY_URL, credentialsId: DOCKER_HUB_CREDENTIALS) {
+                        def dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
+                    }
                 }
 
 //                 dockerImage = docker.build "${IMAGE}:${VERSION}"
@@ -41,8 +43,10 @@ pipeline {
 //                     docker tag ${IMAGE} ${IMAGE}:${VERSION}
 //                     docker push ${IMAGE}:${VERSION}
 //                     """
-                    docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
-                        dockerImage.push()
+                    script {
+                        docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
+                            dockerImage.push()
+                        }
                     }
                 }
             }
