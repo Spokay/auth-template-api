@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent jenkins-docker
 
     environment {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
