@@ -41,11 +41,6 @@ pipeline {
         stage('Deploy') {
             agent any
 
-            environment {
-                // Set the DOCKER_HOST environment variable to point to the socat container
-                DOCKER_HOST = 'tcp://alpine-socat:2376'
-            }
-
             steps {
                 sh """
                 docker pull ${IMAGE}:${VERSION}
