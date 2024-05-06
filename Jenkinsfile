@@ -11,7 +11,7 @@ pipeline {
         stage('Get Code') {
             steps {
                 // Get some code from a GitHub repository
-                git branch: 'master', url: 'https://github.com/Spokay/auth-template-api.git'
+                git branch: 'pipelineScript', url: 'https://github.com/Spokay/auth-template-api.git'
             }
         }
         stage('Build') {
@@ -26,8 +26,11 @@ pipeline {
 //                 """
                 script {
                     def dockerImage
-                    dockerImage = docker.build "${IMAGE}:${VERSION}"
+                    dockerImage = docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                            docker.build "${IMAGE}:${VERSION}"
+                    }
                 }
+
 //                 dockerImage = docker.build "${IMAGE}:${VERSION}"
 
             }
