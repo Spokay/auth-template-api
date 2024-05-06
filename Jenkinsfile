@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    def dockerImage
+    def dockerImage = ''
     environment {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
         IMAGE = 'spokay/auth-template-app'
