@@ -26,7 +26,7 @@ pipeline {
 //                 docker build --build-arg="PORT=8081" -t ${IMAGE} .
 //                 """
                 script {
-                    docker.withRegistry(url: REGISTRY_URL, credentialsId: DOCKER_HUB_CREDENTIALS) {
+                    docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
                         def dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
                     }
                 }
