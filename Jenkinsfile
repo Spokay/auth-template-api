@@ -16,7 +16,7 @@ pipeline {
             }
         }
         stage('Build') {
-            agent jenkins-docker
+            agent any
 
             steps {
                 script {
