@@ -16,11 +16,12 @@ pipeline {
             }
         }
         stage('Build') {
-            agent any
+            agent jenkins-docker
 
             steps {
                 script {
-                    def dockerImage = docker.build("", "--build-arg PORT=8081", "${IMAGE}:${VERSION}")
+                // run the build on the docker cloud agent
+                    def dockerImage = docker.build "${IMAGE}:${VERSION}"
                 }
             }
 
