@@ -27,8 +27,8 @@ pipeline {
 //                 """
                 script {
                     def dockerImage
-                    dockerImage = docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
-                            docker.build "${IMAGE}:${VERSION}"
+                    dockerImage = docker.withRegistry(url: REGISTRY_URL, credentialsId: DOCKER_HUB_CREDENTIALS) {
+                        def dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
                     }
                 }
 
