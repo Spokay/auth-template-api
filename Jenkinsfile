@@ -6,6 +6,7 @@ pipeline {
         IMAGE = 'spokay/auth-template-app'
         VERSION = readMavenPom().getVersion()
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
+        REGISTRY_URL = 'https://index.docker.io/v1/'
     }
     stages {
         stage('Get Code') {
@@ -26,7 +27,7 @@ pipeline {
 //                 """
                 script {
                     def dockerImage
-                    dockerImage = docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                    dockerImage = docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
                             docker.build "${IMAGE}:${VERSION}"
                     }
                 }
@@ -44,7 +45,7 @@ pipeline {
 //                     docker push ${IMAGE}:${VERSION}
 //                     """
                     script {
-                        docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                        docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
                             dockerImage.push()
                         }
                     }
