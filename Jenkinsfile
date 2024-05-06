@@ -16,28 +16,31 @@ pipeline {
             }
         }
         stage('Build') {
-            agent any
 
             steps {
                 script {
-                    docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
-                        def dockerImage = docker.build("${IMAGE}:${VERSION}")
-                    }
+                    sh """
+                    docker build -t ${IMAGE}:${VERSION} .
+                    """
                 }
             }
 
-            post {
+            /* post {
                 success {
                     script {
-                        docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
-                            dockerImage.push()
+                        withCredentials([string(credentialsId: DOCKER_HUB_CREDENTIALS, variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                            sh """
+                            echo ${DOCKER_HUB_CREDENTIALS} | docker login -u spokay --password-stdin
+                            docker tag ${IMAGE}:${VERSION} ${REGISTRY_URL}/${IMAGE}:${VERSION}
+                            docker push ${REGISTRY_URL}/${IMAGE}:${VERSION}
+                            """
                         }
                     }
                 }
-            }
+            } */
         }
 
-        stage('Deploy') {
+        /* stage('Deploy') {
             agent any
 
             steps {
@@ -46,6 +49,6 @@ pipeline {
                 docker run -e 'PORT=8081' -d ${IMAGE}:${VERSION}
                 """
             }
-        }
+        } */
     }
 }
