@@ -1,7 +1,6 @@
 pipeline {
     agent any
 
-    def dockerImage = ''
     environment {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
         IMAGE = 'spokay/auth-template-app'
@@ -28,7 +27,7 @@ pipeline {
 //                 """
                 script {
                     docker.withRegistry(url: REGISTRY_URL, credentialsId: DOCKER_HUB_CREDENTIALS) {
-                        dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
+                        def dockerImage = docker.build("--tls=false", "${IMAGE}:${VERSION}")
                     }
                 }
 
