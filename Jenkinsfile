@@ -20,10 +20,7 @@ pipeline {
 
             steps {
                 script {
-                    docker.withRegistry(REGISTRY_URL, DOCKER_HUB_CREDENTIALS) {
-                        def dockerImage = docker.build("--build-arg PORT=8081", "${IMAGE}:${VERSION}")
-                        dockerImage.push()
-                    }
+                    def dockerImage = docker.build("", "--build-arg PORT=8081", "${IMAGE}:${VERSION}")
                 }
             }
 
