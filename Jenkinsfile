@@ -15,7 +15,7 @@ pipeline {
                 git branch: 'pipelineScript', url: 'https://github.com/Spokay/auth-template-api.git'
             }
         }
-        stage('Build') {
+        stage('Build and push image') {
 
             steps {
                 script {
@@ -35,16 +35,5 @@ pipeline {
                 }
             }
         }
-
-        /* stage('Deploy') {
-            agent any
-
-            steps {
-                sh """
-                docker pull ${IMAGE}:${VERSION}
-                docker run -e 'PORT=8081' -d ${IMAGE}:${VERSION}
-                """
-            }
-        } */
     }
 }
