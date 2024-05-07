@@ -1,5 +1,5 @@
 pipeline {
-    agent jenkins-docker
+    agent any
 
     environment {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
@@ -25,7 +25,7 @@ pipeline {
                 }
             }
 
-            /* post {
+            post {
                 success {
                     script {
                         withCredentials([string(credentialsId: DOCKER_HUB_CREDENTIALS, variable: 'DOCKER_HUB_CREDENTIALS')]) {
@@ -37,7 +37,7 @@ pipeline {
                         }
                     }
                 }
-            } */
+            }
         }
 
         /* stage('Deploy') {
