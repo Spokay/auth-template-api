@@ -28,9 +28,9 @@ pipeline {
             post {
                 success {
                     script {
-                        withCredentials([string(credentialsId: DOCKER_HUB_CREDENTIALS, variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                        withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                             sh """
-                            echo ${DOCKER_HUB_CREDENTIALS} | docker login -u spokay --password-stdin
+                            echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                             docker tag ${IMAGE}:${VERSION} ${REGISTRY_URL}/${IMAGE}:${VERSION}
                             docker push ${REGISTRY_URL}/${IMAGE}:${VERSION}
                             """
