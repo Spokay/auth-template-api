@@ -8,7 +8,6 @@ Currently, it uses a simple in memory database, and I plan to add Spring Profile
 
 ## The profiles available for now are:
 
-- <span style='color:green;'>Default</span> : Authentication verifications with an in memory database, no authorization is implemented
-- <span style='color:green;'>Jwt</span> : Uses JWT tokens for Authentication, Authorization 
-
+- <span style='color:green;'>jwt</span> : This profile is the default profile, it uses JWT tokens for Authentication, Authorization and the the application acts as the ressource server as well
+- <span style='color:green;'>oauth2-auth-server</span> : This profile run the application as an authorization server only
 

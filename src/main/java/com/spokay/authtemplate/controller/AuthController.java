@@ -5,6 +5,7 @@ import com.spokay.authtemplate.dto.AuthenticationResponseDto;
 import com.spokay.authtemplate.dto.RegisterRequestDto;
 import com.spokay.authtemplate.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @CrossOrigin(originPatterns = "*")
+@Profile("jwt")
 public class AuthController {
     private final AuthService authService;
 
