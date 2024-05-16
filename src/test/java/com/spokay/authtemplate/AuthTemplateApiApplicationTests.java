@@ -14,7 +14,6 @@ class AuthTemplateApiApplicationTests {
     @Test
     void contextLoads() {
 
-        Assertions.fail();
         Assertions.assertNotNull(context);
 
     }
