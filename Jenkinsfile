@@ -23,12 +23,11 @@ pipeline {
             }
 
             post {
-
                 success {
                     script {
-                        sh('Image built successfully')
+                        sh('echo Image built successfully')
 
-                        sh('pushing image to docker hub')
+                        sh('echo pushing image to docker hub')
                         withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                             sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
                             sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
