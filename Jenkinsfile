@@ -55,13 +55,6 @@ pipeline {
                         echo('Failed to build image')
                     }
                 }
-                always {
-                    script {
-                        echo('Cleaning up')
-                        sh('docker rmi $IMAGE:$VERSION')
-                        sh('docker rmi $REGISTRY_URL/$IMAGE:$VERSION')
-                    }
-                }
             }
         }
     }
