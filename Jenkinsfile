@@ -24,30 +24,37 @@ pipeline {
 
             post {
                 success {
-                    script {
-                        echo('Image built successfully')
+                    steps {
+                        script {
+                            echo('Image built successfully')
 
-                        echo('Pushing image to docker hub')
-                        withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                            sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
-                            sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
-                            sh('docker push $REGISTRY_URL/$IMAGE:$VERSION')
+                            echo('Pushing image to docker hub')
+                            withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                                sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
+                                sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
+                                sh('docker push $REGISTRY_URL/$IMAGE:$VERSION')
+                            }
                         }
-
                     }
 
                     post {
                         success{
-                            echo('Image pushed successfully')
+                            script {
+                                echo('Image pushed successfully')
+                            }
                         }
                         failure {
-                            echo('Failed to push image')
+                            script {
+                                echo('Failed to push image')
+                            }
                         }
                     }
                 }
-            }
-            failure {
-                echo('Failed to build image')
+                failure {
+                    script {
+                        echo('Failed to build image')
+                    }
+                }
             }
         }
     }
