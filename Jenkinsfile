@@ -25,9 +25,9 @@ pipeline {
             post {
                 success {
                     script {
-                        sh('echo Image built successfully')
+                        echo('Image built successfully')
 
-                        sh('echo pushing image to docker hub')
+                        echo('Pushing image to docker hub')
                         withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                             sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
                             sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
@@ -35,13 +35,19 @@ pipeline {
                         }
 
                     }
-                }
 
-                failure {
-                    script {
-                        sh('echo "Image build failed, aborting push to docker hub"')
+                    post {
+                        success{
+                            echo('Image pushed successfully')
+                        }
+                        failure {
+                            echo('Failed to push image')
+                        }
                     }
                 }
+            }
+            failure {
+                echo('Failed to build image')
             }
         }
     }
