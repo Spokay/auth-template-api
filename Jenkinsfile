@@ -24,29 +24,14 @@ pipeline {
 
             post {
                 success {
-                    steps {
-                        script {
-                            echo('Image built successfully')
+                    script {
+                        echo('Image built successfully')
 
-                            echo('Pushing image to docker hub')
-                            withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                                sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
-                                sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
-                                sh('docker push $REGISTRY_URL/$IMAGE:$VERSION')
-                            }
-                        }
-                    }
-
-                    post {
-                        success{
-                            script {
-                                echo('Image pushed successfully')
-                            }
-                        }
-                        failure {
-                            script {
-                                echo('Failed to push image')
-                            }
+                        echo('Pushing image to docker hub')
+                        withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                            sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
+                            sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
+                            sh('docker push $REGISTRY_URL/$IMAGE:$VERSION')
                         }
                     }
                 }
