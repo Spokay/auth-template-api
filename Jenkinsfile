@@ -32,6 +32,7 @@ pipeline {
                             sh('echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin')
                             sh('docker tag $IMAGE:$VERSION $REGISTRY_URL/$IMAGE:$VERSION')
                             sh('docker push $REGISTRY_URL/$IMAGE:$VERSION')
+                            sh('docker logout')
                         }
                     }
                 }
