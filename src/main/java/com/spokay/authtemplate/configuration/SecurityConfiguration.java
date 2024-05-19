@@ -1,3 +1,4 @@
+/*
 package com.spokay.authtemplate.configuration;
 
 import lombok.RequiredArgsConstructor;
@@ -44,3 +45,4 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+*/
